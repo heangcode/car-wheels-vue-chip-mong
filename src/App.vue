@@ -1,9 +1,17 @@
 <template>
-  <div class="container mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-4">Car Wheel Information</h1>
-    <CarForm :cars="cars" @new-car="addCar" />
-    <QueryForm @query="handleQuery" @bye="openByeModal" />
-    <CarList :cars="displayedCars" />
+  <div class="container mx-auto p-4 w-full">
+    <div class="flex items-start w-full space-x-10">
+      <div class="flex flex-col w-full">
+        <h1 class="text-3xl font-bold mb-6 text-center">
+          Car Wheel Information
+        </h1>
+        <QueryForm @query="handleQuery" @bye="openByeModal" />
+        <CarForm :cars="cars" @new-car="addCar" />
+      </div>
+      <div class="w-full">
+        <CarList :cars="displayedCars" />
+      </div>
+    </div>
     <ByeModal
       v-if="isByeModalOpen"
       @confirm="closeProgram"

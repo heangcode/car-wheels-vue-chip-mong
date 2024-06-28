@@ -1,27 +1,39 @@
 <template>
-  <div class="mb-4">
+  <div class="mb-4 w-full bg-white shadow-md rounded-lg p-6">
     <form @submit.prevent="handleSubmit">
-      <label class="block mb-2">Car Name:</label>
-      <input
-        v-model="name"
-        class="border p-2 w-full mb-4"
-        type="text"
-        required
-      />
+      <div class="mb-4">
+        <label class="block mb-2 font-semibold">Car Name:</label>
+        <input
+          v-model="name"
+          class="border p-3 w-full mb-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+          placeholder="Enter car name"
+          required
+        />
+      </div>
 
-      <label class="block mb-2">Number of Wheels:</label>
-      <input
-        v-model.number="wheels"
-        class="border p-2 w-full mb-4"
-        type="number"
-        required
-      />
+      <div class="mb-4">
+        <label class="block mb-2 font-semibold">Number of Wheels:</label>
+        <input
+          v-model.number="wheels"
+          class="border p-3 w-full mb-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="number"
+          min="1"
+          placeholder="Enter number of wheels"
+          required
+        />
+      </div>
 
-      <button class="bg-blue-500 text-white px-4 py-2" type="submit">
+      <button
+        class="bg-blue-500 rounded-lg text-white px-4 py-2 hover:bg-blue-600 transition duration-200"
+        type="submit"
+      >
         Add Car
       </button>
     </form>
-    <div v-if="errorMessage" class="mt-4 text-red-500">{{ errorMessage }}</div>
+    <div v-if="errorMessage" class="mt-4 text-red-500 font-semibold">
+      {{ errorMessage }}
+    </div>
   </div>
 </template>
 
