@@ -1,30 +1,80 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Car Wheel Information</h1>
+    <CarForm :cars="cars" @new-car="addCar" />
+    <QueryForm @query="handleQuery" @bye="openByeModal" />
+    <CarList :cars="displayedCars" />
+    <ByeModal
+      v-if="isByeModalOpen"
+      @confirm="closeProgram"
+      @cancel="closeByeModal"
+    />
+  </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script lang="ts">
+import { defineComponent, ref } from "vue";
+import CarForm from "./components/CarForm.vue";
+import QueryForm from "./components/QueryForm.vue";
+import CarList from "./components/CarList.vue";
+import ByeModal from "./components/ByeModal.vue";
+
+interface Car {
+  name: string;
+  wheels: number;
 }
 
-nav {
-  padding: 30px;
-}
+export default defineComponent({
+  name: "App",
+  components: {
+    CarForm,
+    QueryForm,
+    CarList,
+    ByeModal,
+  },
+  setup() {
+    const cars = ref<Car[]>([]);
+    const displayedCars = ref<Car[]>([]);
+    const isByeModalOpen = ref(false);
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+    const addCar = (car: Car) => {
+      cars.value.push(car);
+      displayedCars.value = cars.value;
+    };
 
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+    const handleQuery = (query: string) => {
+      if (query.toLowerCase() === "all") {
+        displayedCars.value = cars.value;
+      } else if (query.toLowerCase() === "2-wheel-car") {
+        displayedCars.value = cars.value.filter((car) => car.wheels === 2);
+      } else if (query.toLowerCase() === "4-wheel-car") {
+        displayedCars.value = cars.value.filter((car) => car.wheels === 4);
+      }
+    };
+
+    const openByeModal = () => {
+      isByeModalOpen.value = true;
+    };
+
+    const closeByeModal = () => {
+      isByeModalOpen.value = false;
+    };
+
+    const closeProgram = () => {
+      alert("Closing the application.");
+      isByeModalOpen.value = false;
+    };
+
+    return {
+      cars,
+      displayedCars,
+      isByeModalOpen,
+      addCar,
+      handleQuery,
+      openByeModal,
+      closeByeModal,
+      closeProgram,
+    };
+  },
+});
+</script>
